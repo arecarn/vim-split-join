@@ -11,7 +11,7 @@ endif
 filetype off
 
 execute "set rtp+=".s:vimpath."/bundle/vader.vim"
-execute "set rtp+=".s:vimpath."/bundle/some.vim"
+execute "set rtp+=".s:vimpath."/bundle/split-join.vim"
 set rtp+=.
 
 filetype plugin indent on
