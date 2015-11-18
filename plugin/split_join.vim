@@ -22,10 +22,10 @@ let g:split_join_default_mapping = get(g:, 'split_join_default_mapping', 1)
 " COMMANDS {{{
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 command! -nargs=* -range=0 -bang Split
-    \ call split_join#split(<count>, <line1>, <line2>, <q-args>, '<bang>')
+    \ call split_join#split_cmd(<count>, <line1>, <line2>, <q-args>, '<bang>')
 
 command! -nargs=* -range=0 -bang Join
-    \ call split_join#join(<count>, <line1>, <line2>, <q-args>, '<bang>')
+    \ call split_join#join_cmd(<count>, <line1>, <line2>, <q-args>, '<bang>')
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""}}}
 
 " MAPPINGS {{{
