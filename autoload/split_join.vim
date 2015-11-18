@@ -14,10 +14,7 @@ set cpo&vim
 " search for split?
 
 function! split_join#split_cmd(count, first_line, last_line, input, bang) abort "{{{2
-    let input = a:input
-    if input == ''
-        let input = nr2char(getchar())
-    endif
+    let input = s:get_input(a:input)
 
     let selection = selection#new(a:count, a:first_line, a:last_line)
     if selection.content == ''
@@ -36,10 +33,7 @@ endfunction "}}}2
 
 
 function! split_join#join_cmd(count, first_line, last_line, input, bang) abort "{{{2
-    let input = a:input
-    if input == ''
-        let input = nr2char(getchar())
-    endif
+    let input = s:get_input(a:input)
 
     let selection = selection#new(a:count, a:first_line, a:last_line)
     if selection.content == ''
@@ -73,6 +67,21 @@ function! split_join#join_front()
     normal! ==
 endfunction
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""}}}
+
+" PRIVATE FUNCTIONS {{{
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! s:get_input(cmd_input) abort
+    if a:cmd_input == ''
+        let input = nr2char(getchar())
+    else
+        let rg_expr = '\v/(.{-1,})/'
+        let input = substitute(a:cmd_input, rg_expr, '\1', 'g')
+        echomsg input
+    endif
+
+    return input
+endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""}}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""{{{
