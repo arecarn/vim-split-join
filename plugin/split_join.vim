@@ -41,7 +41,7 @@ endfunction "}}}2
 call s:do_map(
             \ "split-join-split",
             \ "S",
-            \ ":\<C-u>call split_join#split()\<CR>",
+            \ ":\<C-u>call split_join#split(v:count1)\<CR>",
             \ "n",
             \ g:split_join_default_mapping,
             \ )
@@ -49,7 +49,7 @@ call s:do_map(
 call s:do_map(
             \ "split-join-split-up",
             \ "\<C-s>",
-            \ ":\<C-u>call split_join#split_up()\<CR>",
+            \ ":\<C-u>call split_join#split_up(v:count1)\<CR>",
             \ "n",
             \ g:split_join_default_mapping,
             \ )
@@ -61,7 +61,7 @@ call s:do_map(
 call s:do_map(
             \ "split-join-join-front",
             \ "\<C-j>",
-            \ ":\<C-u>call split_join#join_front()\<CR>",
+            \ ":\<C-u>call split_join#join_front(v:count1)\<CR>",
             \ "n",
             \ 0,
             \ )
