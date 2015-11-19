@@ -48,23 +48,28 @@ endfunction "}}}2
 
 
 function! split_join#split()
-    s/\v(.{-})(\s*)(%#)(\s*)(.*)/\1\r\3\5
-    call histdel("/", -1)
-    normal! ==
+    for i  in range(1,v:count)
+        s/\v(.{-})(\s*)(%#)(\s*)(.*)/\1\r\3\5
+        call histdel("/", -1)
+        normal! ==
+    endfor
 endfunction
 
 
 function! split_join#split_up()
-    s/\v(.{-})(\s*)(%#)(\s*)(.*)/\3\5\r\1
-    call histdel("/", -1)
-    normal! k==
+    for i  in range(1,v:count)
+        s/\v(.{-})(\s*)(%#)(\s*)(.*)/\3\5\r\1
+        call histdel("/", -1)
+        normal! k==
+    endfor
 endfunction
 
-
 function! split_join#join_front()
-    s/\v(.*)\n(.*)/\2 \1
-    call histdel("/", -1)
-    normal! ==
+    for i  in range(1,v:count)
+        s/\v(.*)\n(.*)/\2 \1
+        call histdel("/", -1)
+        normal! ==
+    endfor
 endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""}}}
