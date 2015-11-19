@@ -3,6 +3,13 @@
 " License: WTFPL
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" TODO {{{
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" * add visual mode mappings
+" * allow regex for Split/Join command text?
+"   * use the last search pattern when pattern is empty
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""}}}
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""{{{
 let s:save_cpo = &cpo
 set cpo&vim
@@ -15,9 +22,6 @@ let s:error_tag = 'split-join error: '
 
 " PUBLIC FUNCTIONS {{{
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" TODO use the syntax Join/<pattern>/ & Split/<pattern>/ if empty use last
-" search for split?
-
 function! split_join#split_cmd(count, first_line, last_line, input, bang) abort "{{{2
     let input = s:get_input(a:input)
 
