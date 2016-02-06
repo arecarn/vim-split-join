@@ -6,8 +6,6 @@
 " TODO {{{
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " * add visual mode mappings
-" * allow regex for Split/Join command text?
-"   * use the last search pattern when pattern is empty
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""}}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""{{{
@@ -25,6 +23,10 @@ let s:error_tag = 'split-join error: '
 function! split_join#split_cmd(count, first_line, last_line, input, bang) abort "{{{2
     let input = s:get_input(a:input)
 
+    if input == ''
+        let input = @/
+    endif
+
     let selection = selection#new(a:count, a:first_line, a:last_line)
 
     if selection.content == ''
@@ -34,7 +36,7 @@ function! split_join#split_cmd(count, first_line, last_line, input, bang) abort 
     let expr_list = split(selection.content, '\n', 1)
 
     for i in range(len(expr_list))
-        let expr_list[i] = join(split(expr_list[i], input),"\n")
+        let expr_list[i] = substitute(expr_list[i], input, "\n", "g")
     endfor
 
     if a:bang == "!"
@@ -66,34 +68,34 @@ function! split_join#join_cmd(count, first_line, last_line, input, bang) abort "
 endfunction "}}}2
 
 
-function! split_join#split(count)
+function! split_join#split(count) "{{{2
     for i  in range(1, a:count)
         s/\v(.{-})(\s*)(%#)(\s*)(.*)/\1\r\3\5
         call histdel("/", -1)
         normal! ==
     endfor
     call repeat#set("\<Plug>(split-join-split)", a:count)
-endfunction
+endfunction "}}}2
 
 
-function! split_join#split_up(count)
+function! split_join#split_up(count) "{{{2
     for i  in range(1, a:count)
         s/\v(.{-})(\s*)(%#)(\s*)(.*)/\3\5\r\1
         call histdel("/", -1)
         normal! k==
     endfor
     call repeat#set("\<Plug>(split-join-split-up)", a:count)
-endfunction
+endfunction "}}}2
 
 
-function! split_join#join_front(count)
+function! split_join#join_front(count) "{{{2
     for i  in range(1, a:count)
         s/\v(.*)\n(.*)/\2 \1
         call histdel("/", -1)
         normal! ==
     endfor
     call repeat#set("\<Plug>(split-join-join-front)", a:count)
-endfunction
+endfunction "}}}2
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""}}}
 
 " PRIVATE FUNCTIONS {{{
@@ -102,7 +104,7 @@ function! s:get_input(cmd_input) abort "{{{2
     if a:cmd_input == ''
         let input = ' '
     else
-        let rg_expr = '\v/(.{})/'
+        let rg_expr = '\v\/(.{})\/'
 
         if a:cmd_input !~ rg_expr
             call s:throw('invalid input')
@@ -114,6 +116,7 @@ function! s:get_input(cmd_input) abort "{{{2
 
     return input
 endfunction "}}}2
+
 
 function!  s:throw(error_body) abort "{{{2
     let error_msg = s:error_tag.a:error_body
