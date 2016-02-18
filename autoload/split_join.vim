@@ -15,56 +15,58 @@ set cpo&vim
 
 " GLOBALS {{{
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let s:error_tag = 'split-join error: '
+let s:error_tag = 'Split-Join error: '
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""}}}
 
 " PUBLIC FUNCTIONS {{{
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! split_join#split_cmd(count, first_line, last_line, input, bang) abort "{{{2
-    let input = s:get_input(a:input)
+    try
+            let input = s:get_input(a:input)
+            if input == ''
+                let input = @/
+            endif
+            let selection = selection#new(a:count, a:first_line, a:last_line)
+            if selection.content == ''
+                let selection = selection#new(1, line('.'), line('.'))
+            endif
 
-    if input == ''
-        let input = @/
-    endif
+            let expr_list = split(selection.content, '\n', 1)
+            for i in range(len(expr_list))
+                let expr_list[i] = substitute(expr_list[i], input, "\n", "g")
+            endfor
 
-    let selection = selection#new(a:count, a:first_line, a:last_line)
+            if a:bang == "!"
+                let expr_list = reverse(expr_list)
+            endif
 
-    if selection.content == ''
-        let selection = selection#new(1, line('.'), line('.'))
-    endif
-
-    let expr_list = split(selection.content, '\n', 1)
-
-    for i in range(len(expr_list))
-        let expr_list[i] = substitute(expr_list[i], input, "\n", "g")
-    endfor
-
-    if a:bang == "!"
-        let expr_list = reverse(expr_list)
-    endif
-
-    let expr_lines = join(expr_list, "\n")
-    call selection.over_write(expr_lines)
+            let expr_lines = join(expr_list, "\n")
+            call selection.over_write(expr_lines)
+    catch /Split-Join error: /
+        call s:echo_error(v:exception)
+    endtry
 endfunction "}}}2
 
 
 function! split_join#join_cmd(count, first_line, last_line, input, bang) abort "{{{2
-    let input = s:get_input(a:input)
+    try
+            let input = s:get_input(a:input)
+            let selection = selection#new(a:count, a:first_line, a:last_line)
+            if selection.content == ''
+                let selection = selection#new(1, line('.'), line('.') + 1)
+            endif
 
-    let selection = selection#new(a:count, a:first_line, a:last_line)
+            let expr_list = split(selection.content, '\n', 0)
 
-    if selection.content == ''
-        let selection = selection#new(1, line('.'), line('.') + 1)
-    endif
+            if a:bang == "!"
+                let expr_list = reverse(expr_list)
+            endif
 
-    let expr_list = split(selection.content, '\n', 0)
-
-    if a:bang == "!"
-        let expr_list = reverse(expr_list)
-    endif
-
-    let expr_lines = join(expr_list, input)
-    call selection.over_write(expr_lines)
+            let expr_lines = join(expr_list, input)
+            call selection.over_write(expr_lines)
+    catch /Split-Join error: /
+        call s:echo_error(v:exception)
+    endtry
 endfunction "}}}2
 
 
@@ -117,6 +119,11 @@ function! s:get_input(cmd_input) abort "{{{2
     return input
 endfunction "}}}2
 
+function! s:echo_error(error_string) "{{{2
+    echohl WarningMsg
+    echomsg a:error_string
+    echohl None
+endfunction "}}}2
 
 function!  s:throw(error_body) abort "{{{2
     let error_msg = s:error_tag.a:error_body
