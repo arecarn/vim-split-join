@@ -71,7 +71,7 @@ endfunction "}}}2
 
 
 function! split_join#split(count) "{{{2
-    for i  in range(1, a:count)
+    for i in range(1, a:count)
         s/\v(.{-})(\s*)(%#)(\s*)(.*)/\1\r\3\5
         call histdel("/", -1)
         normal! ==
@@ -91,7 +91,7 @@ endfunction "}}}2
 
 
 function! split_join#join_front(count) "{{{2
-    for i  in range(1, a:count)
+    for i in range(1, a:count)
         s/\v(.*)\n(.*)/\2 \1
         call histdel("/", -1)
         normal! ==
