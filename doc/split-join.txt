@@ -1,0 +1,82 @@
+*split-join* adds some splitting and joining primitives
+
+                                  split-join~
+
+Description ........................................... |split-join-description|
+    Requirements ...................................... |split-join-requirements|
+Usage ................................................. |split-join-usage|
+    Key Mappings ...................................... |split-join-key-mappings|
+    Commands .......................................... |split-join-commands|
+Configuration ......................................... |split-join-configuration|
+    Variables ......................................... |split-join-variables|
+
+                                                                *split-join.txt*
+
+==============================================================================
+DESCRIPTION                                             *split-join-description*
+
+Add some splitting and joining primitives to vim.
+
+------------------------------------------------------------------------------
+REQUIREMENTS                                           *split-join-requirements*
+
+* |vim-repeat| https://github.com/tpope/vim-repeat
+
+==============================================================================
+USAGE                                                         *split-join-usage*
+
+------------------------------------------------------------------------------
+KEY MAPPINGS                                           *split-join-key-mappings*
+                                                *S*
+S                       Explanation of a normal mode mapping goes here. There
+                        can also be additional lines of explanation
+                        then return to old position
+                        Plug mapping: `<Plug>(split-join-split)`
+
+                                                *CTRL-S*
+CTRL-S                  Explanation of a normal mode mapping goes here. There
+                        can also be additional lines of explanation
+                        then return to old position
+                        Plug mapping: `<Plug>(split-join-split-up)`
+
+                                                *CTRL-J*
+CTRL-J                  Explanation of a normal mode mapping goes here. There
+                        can also be additional lines of explanation
+                        then return to old position
+                        Plug mapping: `<Plug>(split-join-join-front)`
+
+------------------------------------------------------------------------------
+COMMANDS                                                   *split-join-commands*
+                                                *:Split*
+:[range]Split[/{pattern}/]
+                        For each line in range replace spaces with newlines or
+                        the optional match. In the case that a {pattern} is
+                        supplied instead of replaces spaces matches to
+                        {pattern} are replaced with newlines.
+
+
+                                                *:Join*
+:[range]Join[/{string}/]
+                        for each line in [range] newlines are removed and
+                        replaced with a space or the optional {string}.
+
+==============================================================================
+CONFIGURATION                                         *split-join-configuration*
+
+------------------------------------------------------------------------------
+VARIABLES                                                 *split-join-variables*
+
+                                                *g:split_join_default_mapping*
+g:split_join_default_mapping
+                        If set to 0 disables the default mappings
+                        (default: 1)
+
+                        Example of alternate mappings: >
+
+                        let g:split_join_default_mapping = 0
+                        nmap <leader>s <Plug>(split-join-split)
+                        nmap <leader>su <Plug>(split-join-split-up)
+                        nmap <leader>jf <Plug>(split-join-join-front)
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fdm=manual:

@@ -17,7 +17,11 @@ Usage
 
 * `:[range]Join[/{string}/]`
     * for each line in [range] newlines are removed and replaced with a space or
-        the optional {string}.
+      the optional {string}.
+
+Requirements
+------------
+* ![vim-repeat](https://github.com/tpope/vim-repeat)
 
 Customization
 -------------
