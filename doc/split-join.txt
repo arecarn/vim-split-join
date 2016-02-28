@@ -2,13 +2,13 @@
 
                                   split-join~
 
-Description ........................................... |split-join-description|
-    Requirements ...................................... |split-join-requirements|
-Usage ................................................. |split-join-usage|
-    Key Mappings ...................................... |split-join-key-mappings|
-    Commands .......................................... |split-join-commands|
-Configuration ......................................... |split-join-configuration|
-    Variables ......................................... |split-join-variables|
+Description ......................................... |split-join-description|
+    Requirements .................................... |split-join-requirements|
+Usage ............................................... |split-join-usage|
+    Key Mappings .................................... |split-join-key-mappings|
+    Commands ........................................ |split-join-commands|
+Configuration ....................................... |split-join-configuration|
+    Variables ....................................... |split-join-variables|
 
                                                                 *split-join.txt*
 
@@ -28,35 +28,35 @@ USAGE                                                         *split-join-usage*
 ------------------------------------------------------------------------------
 KEY MAPPINGS                                           *split-join-key-mappings*
                                                 *S*
-S                       Explanation of a normal mode mapping goes here. There
-                        can also be additional lines of explanation
-                        then return to old position
+S                       Split the line downward at the current position
+                        removing extra white space, and attempt to correct the
+                        indenting of the new line.
                         Plug mapping: `<Plug>(split-join-split)`
 
                                                 *CTRL-S*
-CTRL-S                  Explanation of a normal mode mapping goes here. There
-                        can also be additional lines of explanation
-                        then return to old position
+CTRL-S                  Split the line upwards at the current position
+                        removing extra white space.and attempt to correct the
+                        indenting of the new line.
                         Plug mapping: `<Plug>(split-join-split-up)`
 
                                                 *CTRL-J*
-CTRL-J                  Explanation of a normal mode mapping goes here. There
-                        can also be additional lines of explanation
-                        then return to old position
+CTRL-J                  Join two line bringing the bottom line to the front of
+                        the current line to the front of the current line
                         Plug mapping: `<Plug>(split-join-join-front)`
 
 ------------------------------------------------------------------------------
 COMMANDS                                                   *split-join-commands*
                                                 *:Split*
-:[range]Split[/{pattern}/]
+:[range]Split[!][/{pattern}/]
                         For each line in range replace spaces with newlines or
                         the optional match. In the case that a {pattern} is
                         supplied instead of replaces spaces matches to
-                        {pattern} are replaced with newlines.
+                        {pattern} are replaced with newlines. When [!] is
+                        added
 
 
                                                 *:Join*
-:[range]Join[/{string}/]
+:[range]Join[!][/{string}/]
                         for each line in [range] newlines are removed and
                         replaced with a space or the optional {string}.
 
