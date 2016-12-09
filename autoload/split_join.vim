@@ -23,8 +23,8 @@ let s:error_tag = 'Split-Join error: '
 function! split_join#split_cmd(count, first_line, last_line, input, bang) abort "{{{2
     try
             let input = s:get_input(a:input)
-            if input == ''
-                let input = @/
+            if input.pattern == ''
+                let input.pattern = @/
             endif
             let selection = selection#new(a:count, a:first_line, a:last_line)
             if selection.content == ''
@@ -36,7 +36,7 @@ function! split_join#split_cmd(count, first_line, last_line, input, bang) abort 
                 let expr_list[i] = substitute(expr_list[i], input, "\n", "g")
             endfor
 
-            if a:bang == "!"
+            if input.options ==# 'r'
                 let expr_list = reverse(expr_list)
             endif
 
@@ -58,11 +58,15 @@ function! split_join#join_cmd(count, first_line, last_line, input, bang) abort "
 
             let expr_list = split(selection.content, '\n', 0)
 
-            if a:bang == "!"
+
+            let range = range(len(expr_list))
+            call remove(range, 0)
+
+            if input.options ==# 'r'
                 let expr_list = reverse(expr_list)
             endif
 
-            let expr_lines = join(expr_list, input)
+            let expr_lines = join(expr_list, input.pattern)
             call selection.over_write(expr_lines)
     catch /Split-Join error: /
         call s:echo_error(v:exception)
@@ -103,17 +107,20 @@ endfunction "}}}2
 " PRIVATE FUNCTIONS {{{
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! s:get_input(cmd_input) abort "{{{2
+    let input = {}
     if a:cmd_input == ''
-        let input = ' '
+        let input.pattern = ' '
+        let input.options = ''
     else
-        let rg_expr = '\v\/(.{})\/'
+
+        let rg_expr = '\v\/(.{})\/(.{})?'
 
         if a:cmd_input !~ rg_expr
             call s:throw('invalid input')
         endif
 
-        let input = substitute(a:cmd_input, rg_expr, '\1', 'g')
-        echomsg input
+        let input.pattern = substitute(a:cmd_input, rg_expr, '\1', 'g')
+        let input.options = substitute(a:cmd_input, rg_expr, '\2', 'g')
     endif
 
     return input
