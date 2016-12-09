@@ -9,15 +9,15 @@ Usage
 | normal | CTRL-S      | Split a line upwards           |
 | normal | CTRL-J      | Join a to the fron of a line   |
 
-* `:[range]Split[!][/{pattern}/]`
-    * For each line in range replace spaces with newlines or the optional
-      match. In the case that a {pattern} is supplied instead of replaces spaces
-      matches to {pattern} are replaced with newlines.
+* `:[range]Split[!][/{pattern}/[flags]]`
+    * For each line in [range] replace spaces or matches to {pattern} with
+      newlines and the leading spaces of the first item. When [!] is added the
+      leading spaces of the first item are not inserted.
 
-* `:[range]Join[!][/{string}/]`
-    * for each line in [range] newlines are removed and replaced with a space or
-      the optional {string}.
-
+* `:[range]Join[!][/{string}/[flags]]`
+    * For each line in [range] leading spaces and newlines are replaced with a
+      single space or the optional {string}. When [!] is added the leading
+      spaces of the first item are preserved.
 
 Requirements
 ------------

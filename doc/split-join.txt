@@ -47,19 +47,28 @@ CTRL-J                  Join two line bringing the bottom line to the front of
 ------------------------------------------------------------------------------
 COMMANDS                                                   *split-join-commands*
                                                 *:Split*
-:[range]Split[!][/{pattern}/]
-                        For each line in range replace spaces with newlines or
-                        the optional match. In the case that a {pattern} is
-                        supplied instead of replaces spaces matches to
-                        {pattern} are replaced with newlines. When [!] is
-                        added
+:[range]Split[!][/{pattern}/[flags]]
+                        For each line in [range] replace spaces or matches to
+                        {pattern} with newlines and the leading spaces of the
+                        first item. When [!] is added the leading spaces of
+                        the first item are not inserted.
 
+                                                *:Split_flags*
+The flags that you can use for Split commands:
+
+                        [r] split in reverse order
 
                                                 *:Join*
-:[range]Join[!][/{string}/]
-                        for each line in [range] newlines are removed and
-                        replaced with a space or the optional {string}.
+:[range]Join[!][/{string}/[flags]]
+                        For each line in [range] leading spaces and newlines
+                        are replaced with a single space or the optional
+                        {string}. When [!] is added the leading spaces of the
+                        first item are preserved.
 
+                                                *:Join_flags*
+The flags that you can use for Join commands:
+
+                        [r] join in reverse order
 ==============================================================================
 CONFIGURATION                                         *split-join-configuration*
 
