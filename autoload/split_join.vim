@@ -32,12 +32,16 @@ function! split_join#split_cmd(count, first_line, last_line, input, bang) abort 
             endif
 
             let expr_list = split(selection.content, '\n', 1)
-            for i in range(len(expr_list))
-                let expr_list[i] = substitute(expr_list[i], input, "\n", "g")
-            endfor
+            let indent = matchstr(selection.content, '\v^\s*')
 
             if input.options ==# 'r'
                 let expr_list = reverse(expr_list)
+            endif
+
+            if a:bang !=# "!"
+                for i in range(len(expr_list))
+                    let expr_list[i] = substitute(expr_list[i], input.pattern, '\n'.indent, 'g')
+                endfor
             endif
 
             let expr_lines = join(expr_list, "\n")
@@ -64,6 +68,12 @@ function! split_join#join_cmd(count, first_line, last_line, input, bang) abort "
 
             if input.options ==# 'r'
                 let expr_list = reverse(expr_list)
+            endif
+
+            if a:bang !=# "!"
+                for i in range
+                    let expr_list[i] = substitute(expr_list[i], '\v^\s+|\s+$', '', 'g')
+                endfor
             endif
 
             let expr_lines = join(expr_list, input.pattern)
